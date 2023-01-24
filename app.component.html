@@ -1,0 +1,31 @@
+<div class="container-fluid mt-4">
+  <div class="mb-4 form-group col-lg-2 col-md-2 float-lg-start border m-2 p-2">
+    <div>Sorting area</div>
+    <input class="form-control" type="number" [(ngModel)]="searchPrice" placeholder="price filter" ng-currency />
+  </div>
+  <div class="col-lg-9 col-12 float-lg-end col-md-9"  *ngIf="(data | filter: searchPrice).length > 0; else noResults">
+    <div *ngFor="let result of data | filter: searchPrice; let i = index">
+      <div class="row border-bottom py-2">
+        <div class="col-1 col-lg-1 col-md-1">{{ result['index'] }}</div>
+        <div class="col-4 col-lg-3 col-md-3">
+          <div class=""><img ngSrc ="../assets/img/{{ result['image']}}" class="img-fluid col-3"/></div>
+          <div>{{ result['title']}}</div>
+        </div>
+        <div class="col-4 col-lg-3 col-md-3">
+          <div>tags: {{ result['tags']}}</div>
+          <div>{{ result['rating']}}/5</div>
+        </div>
+        <div class="col-4 col-lg-2 col-md-2">
+          <div>€ {{ result['price']}}</div>
+          <div (click)="hideme[result['index']] = !hideme[result['index']]" class="btn btn-outline-primary">{{!hideme[result['index']]?'More details':'Less details'}}</div>
+        </div>
+      </div>
+      <div class="row" *ngIf="hideme[result['index']]">
+        <div class="col-12 p-2 border-bottom gx-0">{{result['description']}}</div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noResults>
+    <p>No results found for "{{searchPrice}}".</p>
+  </ng-template>
+</div>
